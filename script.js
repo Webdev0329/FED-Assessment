@@ -7,7 +7,23 @@ const Products = {
   displayProducts: productsJson => {
 
     // Render the products here
+    var products = productsJson.data.products.edges;
+    var wrapper = document.getElementById("product-wrapper");
+    var html = '';
 
+    for( var i = 0; i < products.length; i ++) {
+      var product = products[i].node;
+      html += "<div class='product col-3' data-id='" + product.id + "' data-tags='" + product.tags.join("|") + "'>"
+            + "<div class='product-img'>" + "<img src='" + product.images.edges[0].node.originalSrc + "' />" + "</div>"
+            + "<div class='product-content'>"
+              + "<label class='product-title'>" + product.title + "</label>"
+              + "<p><span class='product-price'>" + product.priceRange.minVariantPrice.amount + "</span><span class='product-currency'>" + product.priceRange.minVariantPrice.currencyCode + "</span></p>"
+              + "<p><span class='product-tags'>" + product.tags.join(",") + "</span></p>"
+            + "</div>"
+          +  "</div>";
+    }
+
+    wrapper.innerHTML = html;
   },
 
   state: {
